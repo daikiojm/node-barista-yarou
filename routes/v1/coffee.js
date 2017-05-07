@@ -56,8 +56,8 @@ router.get('/count', function(req, res, next) {
   let untilDay = req.query.until || moment().format("YYYY-MM-DD");
   // Set the range to select date
   // ref : https://www.quora.com/Node-js-How-do-range-query-in-mongoose
-  // ‹«ŠE’l‚ðŠÜ‚Þê‡: $gte, $lte
-  // ‹«ŠE’l‚ðŠÜ‚Ü‚È‚¢ê‡: $gt, $lt
+  // å¢ƒç•Œå€¤ã‚’å«ã‚€å ´åˆ: $gte, $lte
+  // å¢ƒç•Œå€¤ã‚’å«ã¾ãªã„å ´åˆ: $gt, $lt
   DripModel.count({user_id: userId, type: dripType, "date": {'$gte': new Date(sinceDay), '$lte': new Date(untilDay)}}, (err, c) => {
     console.log(c);
     TypeModel.findOne({id: dripType}, (err, docs) => {
