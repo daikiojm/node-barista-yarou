@@ -1,7 +1,9 @@
 # バリスタ野郎 (node-barisita-yarou)
 
 ## バリスタ野郎とは
+![background](https://github.com/daikiojm/node-barista-yarou/blob/master/public/images/about/background-node-barista-yarou.png)
 
+![about](https://github.com/daikiojm/node-barista-yarou/blob/master/public/images/about/background-node-barista-yarou.png)
 
 ## 機能
 
