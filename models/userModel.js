@@ -5,9 +5,9 @@ const moment = require('moment');
 let Schema = mongoose.Schema;
 
 let UserSchema = new Schema({
-  name: String,
-  screen_name: String,
-  bio: String
+  username: String,
+  password: String,
+  idm: String
 });
 
 module.exports = mongoose.model('UserModel', UserSchema);

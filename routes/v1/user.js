@@ -2,12 +2,12 @@ var express = require('express');
 var router = express.Router();
 let UserModel = require('../../models/userModel.js');
 
-/* GET users listing. */
+// 新規ユーザーの登録
 router.post('/', (req, res, next) => {
   let User = new UserModel();
-  User.name = req.body.name;
-  User.screen_name = req.body.screen_name;
-  User.bio = req.body.bio;
+  User.username = req.body.username;
+  User.password = req.body.password;
+  User.idm = req.body.idm;
   User.save((err) => {
     if(err) {
       res.send(err);
@@ -17,6 +17,7 @@ router.post('/', (req, res, next) => {
   });
 });
 
+// ユーザーリストの取得
 router.get('/', (req, res) => {
   UserModel
     .find()
@@ -25,6 +26,7 @@ router.get('/', (req, res) => {
     });
 });
 
+// IDごとのユーザー情報の取得
 router.get('/:id', (req, res) => {
   let Userid = req.params.id;
   UserModel
@@ -33,6 +35,7 @@ router.get('/:id', (req, res) => {
     });
 });
 
+// IDごとのユーザー情報の変更
 router.put('/:id', (req, res) => {
   let Userid = req.params.id;
   UserModel
@@ -40,9 +43,10 @@ router.put('/:id', (req, res) => {
       if(err) {
         res.send(err);
       } else {
-        user.name = req.body.name || user.name;
-        user.screen_name = req.body.screen_name || user.screen_name;
-        user.bio = req.body.bio || user.bio;
+        // POSTパラメータに設定されていない項目は現状維持
+        user.username = req.body.username || user.username;
+        user.password = req.body.password || user.password;
+        user.idm = req.body.idm || user.idm;
 
         user.save((err) => {
           if(err) {
@@ -50,12 +54,12 @@ router.put('/:id', (req, res) => {
           } else {
             res.json({ message: 'Success'});
           }
-        })
+        });
       }
-    })
-})
+    });
+});
 
-// delete user by id
+// IDごとのユーザー情報の削除
 router.delete('/:id', function(req, res, next) {
   let Userid = req.params.id;
   UserModel.remove({_id:Userid})

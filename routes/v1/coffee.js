@@ -4,14 +4,7 @@ const moment = require('moment');
 let DripModel = require('../../models/dripModel.js');
 let TypeModel = require('../../models/typeModel.js');
 
-
-// drip
-
-// drip count by user
-// in: user_id, type
-
-// delete drip document
-
+// ユーザーID、タイプを指定してドリップ
 router.post('/', (req, res) => {
   let Drip = new DripModel();
   Drip.user_id = req.body.user_id;
@@ -26,6 +19,7 @@ router.post('/', (req, res) => {
   });
 });
 
+// ユーザーID、タイプを指定して全期間の集計結果を取得
 router.get('/:id/:type', function(req, res, next) {
   let userId = req.params.id;
   let dripType = req.params.type;
@@ -42,6 +36,7 @@ router.get('/:id/:type', function(req, res, next) {
   });
 });
 
+// ユーザーID、タイプを指定して指定期間の集計結果を取得
 // drip?userid=d_ojima&type=0&since=2017-04-22&until=2017-04-24
 router.get('/count', function(req, res, next) {
   let userId = req.query.userid || null;
@@ -77,7 +72,6 @@ router.get('/count', function(req, res, next) {
     });
   });
 });
-
 
 router.get('/', function(req, res, next) {
   let userId = req.query.userid || null;
