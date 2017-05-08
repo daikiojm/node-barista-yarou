@@ -4,7 +4,11 @@ let TypeModel = require('../../models/typeModel.js');
 
 
 router.get('/', (req, res) => {
-  res.send('moge');
+  TypeModel
+    .find()
+    .then((types) => {
+      res.json(types);
+    });
 })
 
 // コーヒーの種類登録
@@ -25,18 +29,18 @@ router.post('/', (req, res) => {
 
 // IDごとのコーヒーの情報変更
 router.put('/:id', (req, res) => {
-  let Userid = req.params.id;
-  UserModel
-    .findById(Userid, (err, user) => {
+  let Id = req.params.id;
+  TypeModel
+    .findById(Id, (err, type) => {
       if(err) {
         res.send(err);
       } else {
         // POSTパラメータに設定されていない項目は現状維持
-        user.username = req.body.username || user.username;
-        user.password = req.body.password || user.password;
-        user.idm = req.body.idm || user.idm;
+        type.id = req.body.id || type.id;
+        type.name = req.body.name || type.name;
+        type.price = req.body.price || type.price;
 
-        user.save((err) => {
+        type.save((err) => {
           if(err) {
             res.send(err);
           } else {
@@ -49,8 +53,8 @@ router.put('/:id', (req, res) => {
 
 // IDごとのユーザー情報の削除
 router.delete('/:id', function(req, res, next) {
-  let Userid = req.params.id;
-  UserModel.remove({_id:Userid})
+  let Id = req.params.id;
+  TypeModel.remove({_id:Id})
     .then(() => {
       res.json({message: 'Success!!'});
     });
