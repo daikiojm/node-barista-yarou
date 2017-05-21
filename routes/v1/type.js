@@ -2,6 +2,10 @@ var express = require('express');
 var router = express.Router();
 let TypeModel = require('../../models/typeModel.js');
 
+// 全コーヒー種別の表示
+router.get('/list', (req, res) => {
+  res.render('type', { title: '全コーヒー種別' });
+});
 
 router.get('/', (req, res) => {
   TypeModel
@@ -36,7 +40,7 @@ router.put('/:id', (req, res) => {
         res.send(err);
       } else {
         // POSTパラメータに設定されていない項目は現状維持
-        type.id = req.body.id || type.id;
+        // type.id = req.body.id || type.id;
         type.name = req.body.name || type.name;
         type.price = req.body.price || type.price;
 
@@ -51,7 +55,7 @@ router.put('/:id', (req, res) => {
     });
 });
 
-// IDごとのユーザー情報の削除
+// IDごとのコーヒー種類情報の削除
 router.delete('/:id', function(req, res, next) {
   let Id = req.params.id;
   TypeModel.remove({_id:Id})

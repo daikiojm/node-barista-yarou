@@ -4,6 +4,23 @@ const moment = require('moment');
 let DripModel = require('../../models/dripModel.js');
 let TypeModel = require('../../models/typeModel.js');
 
+// 全ドリップ履歴の表示
+router.get('/list', (req, res) => {
+  res.render('drip', { title: '全ドリップ履歴' });
+});
+
+// 全ドリップ履歴取得
+router.get('/', function(req, res, next) {
+  DripModel.find({}, {__v: 0}, (err, drips) => {
+    if (!err) {
+      res.json(drips)
+    } else {
+      res.json({ message: err});
+    }
+  })
+});
+
+
 // ユーザーID、タイプを指定してドリップ
 router.post('/', (req, res) => {
   let Drip = new DripModel();
@@ -97,11 +114,6 @@ router.get('/', function(req, res, next) {
     res.json(docs);
   })
 
-});
-
-/* GET users listing. */
-router.get('/', function(req, res, next) {
-  res.send('respond with a resource');
 });
 
 module.exports = router;

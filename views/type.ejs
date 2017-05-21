@@ -8,13 +8,12 @@
     <table class="table">
       <thead class="thead-default">
         <tr>
-          <td>ユーザーID</td>
-          <td>ユーザー名</td>
-          <td>パスワード</td>
-          <td>Idm</td>
+          <td>ID</td>
+          <td>名前</td>
+          <td>値段(¥)</td>
         </tr>
       </thead>
-      <tbody id="userlist">
+      <tbody id="typelist">
       </tbody>
     </table>
 
@@ -23,10 +22,10 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script type="text/javascript">
     let getUserList = () => {
-      let elm = $("#userlist");
+      let elm = $("#typelist");
       elm.empty();
       $.ajax({
-        url: "/api/v1/user"
+        url: "/api/v1/type"
       })
       .then(
         (data) => {
@@ -34,13 +33,11 @@
           for (let i = 0; i < data.length; i++) {
             let line = data[i];
             list+= '<tr><td>';
-            list+= line['_id'];
+            list+= line['id'];
             list+= '</td><td>';
-            list+= line['username'];
+            list+= line['name'];
             list+= '</td><td>';
-            list+= line['password'];
-            list+= '</td><td>';
-            list+= line['idm'];
+            list+= line['price'];
             list+= '</td>';
             list+='</tr>';
           }

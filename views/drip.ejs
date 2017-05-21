@@ -8,25 +8,24 @@
     <table class="table">
       <thead class="thead-default">
         <tr>
+          <td>ID</td>
+          <td>タイプ</td>
           <td>ユーザーID</td>
-          <td>ユーザー名</td>
-          <td>パスワード</td>
-          <td>Idm</td>
+          <td>時間</td>
         </tr>
       </thead>
-      <tbody id="userlist">
+      <tbody id="driplist">
       </tbody>
     </table>
-
 
     <%# ひとまずjQueryのAjaxでAPIから取得したJSONを表示%>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script type="text/javascript">
     let getUserList = () => {
-      let elm = $("#userlist");
+      let elm = $("#driplist");
       elm.empty();
       $.ajax({
-        url: "/api/v1/user"
+        url: "/api/v1/drip"
       })
       .then(
         (data) => {
@@ -36,11 +35,11 @@
             list+= '<tr><td>';
             list+= line['_id'];
             list+= '</td><td>';
-            list+= line['username'];
+            list+= line['type'];
             list+= '</td><td>';
-            list+= line['password'];
+            list+= line['user_id'];
             list+= '</td><td>';
-            list+= line['idm'];
+            list+= line['date'];
             list+= '</td>';
             list+='</tr>';
           }
