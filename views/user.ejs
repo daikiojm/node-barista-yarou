@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('header') -%>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <table class="table">
+      <thead class="thead-default">
+        <tr>
+          <td>ユーザー名</td>
+          <td>パスワード</td>
+          <td>Idm</td>
+        </tr>
+      </thead>
+      <tbody id="userlist">
+      </tbody>
+    </table>
+
+
+    <%# ひとまずjQueryのAjaxでAPIから取得したJSONを表示%>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script type="text/javascript">
+    let getUserList = () => {
+      let elm = $("#userlist");
+      elm.empty();
+      $.ajax({
+        url: "/api/v1/user"
+      })
+      .then(
+        (data) => {
+          let list;
+          for (let i = 0; i < data.length; i++) {
+            let line = data[i];
+            list+= '<tr><td>';
+            list+= line['username'];
+            list+= '</td><td>';
+            list+= line['password'];
+            list+= '</td><td>';
+            list+= line['idm'];
+            list+= '</td>';
+            // for (let j in line) {
+            //   list+= '<td>';
+            //   list+= line[j];
+            //   list+= '</td>';
+            // }
+            list+='</tr>';
+          }
+          list+= '</tbody>';
+          elm.append(list);
+        },
+        (err) => {
+          $("userlist").text(JSON.stringify({message: err}));
+        }
+      )
+    }
+
+    $(() => {
+      getUserList();
+    });
+    </script>
+  </body>
+</html>

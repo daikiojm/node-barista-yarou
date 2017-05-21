@@ -17,13 +17,25 @@ router.post('/', (req, res, next) => {
   });
 });
 
+// ユーザーリストページの表示
+router.get('/list', (req, res) => {
+  res.render('user', { title: 'ユーザー一覧' });
+});
+
 // ユーザーリストの取得
 router.get('/', (req, res) => {
-  UserModel
-    .find()
-    .then((users) => {
-      res.json(users);
-    });
+  // UserModel
+  //   .find()
+  //   .then((users) => {
+  //     res.json(users);
+  //   });
+  UserModel.find({}, {_id: 0, __v: 0}, (err, users) => {
+    if (!err) {
+      res.json(users)
+    } else {
+      res.json({ message: err});
+    }
+  })
 });
 
 // IDごとのユーザー情報の取得
