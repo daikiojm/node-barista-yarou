@@ -5,7 +5,11 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <h1><%= id %></h1>
+    <div class="well">
+        <p class="name">名前: </p>
+        <p class="count">合計: </p>
+        <p class="sum">合計金額: </p>
+    </div>
     <%# ejsからjavascriptへの値渡し部分 (無理矢理感否めない)%>
     <h2 style="display:none;" id="id"><%=id %></h2>
     <table class="table">
@@ -52,13 +56,48 @@
           elm.append(list);
         },
         (err) => {
-          $("userlist").text(JSON.stringify({message: err}));
+          elm.text(JSON.stringify({message: err}));
+        }
+      )
+    }
+
+    let getSum = () => {
+      let countelm = $(".count");
+      let sumelm = $(".sum");
+      $.ajax({
+        url: "/api/v1/drip/" + id + "/" + type
+      })
+      .then(
+        (data) => {
+            countelm.append(data.count + ' 杯');
+            sumelm.append(data.price + ' 円');
+        },
+        (err) => {
+          elm.text(JSON.stringify({message: err}));
+        }
+      )
+    }
+
+    // ここ追加でバグってる
+    let getNameById() => {
+      let nameelm = $(".name");
+      $.ajax({
+        url: "/api/v1/user/" + id
+      })
+      .then(
+        (data) => {
+            nameelm.append(data.username + ' さん');
+        },
+        (err) => {
+          nameelm.text(JSON.stringify({message: err}));
         }
       )
     }
 
     $(() => {
+      getNameById();
       getDripList();
+      getSum();
     });
     </script>
   </body>
