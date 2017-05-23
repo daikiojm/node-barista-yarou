@@ -34,9 +34,10 @@
             let line = data[i];
             list+= '<tr><td>';
             list+= line['_id'];
-            list+= '</td><td>';
+            list+= '</td><td><a href="../drip/list/'
+            list+= line['_id'] + '">';
             list+= line['username'];
-            list+= '</td><td>';
+            list+= '</a></td><td>';
             list+= line['password'];
             list+= '</td><td>';
             list+= line['idm'];

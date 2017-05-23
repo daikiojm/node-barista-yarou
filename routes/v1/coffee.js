@@ -12,7 +12,7 @@ router.get('/list', (req, res) => {
 // ユーザーごとのサマリーの表示
 router.get('/list/:id', (req, res) => { // :id → ユーザーid
   let userId = req.params.id;
-  res.render('usersummary', { title: '全ドリップ履歴', id: userId });
+  res.render('usersummary', { title: 'サマリー', id: userId });
 });
 
 // 全ドリップ履歴取得
