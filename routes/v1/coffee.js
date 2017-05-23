@@ -9,6 +9,12 @@ router.get('/list', (req, res) => {
   res.render('drip', { title: '全ドリップ履歴' });
 });
 
+// ユーザーごとのサマリーの表示
+router.get('/list/:id', (req, res) => { // :id → ユーザーid
+  let userId = req.params.id;
+  res.render('usersummary', { title: '全ドリップ履歴', id: userId });
+});
+
 // 全ドリップ履歴取得
 router.get('/', function(req, res, next) {
   DripModel.find({}, {__v: 0}, (err, drips) => {
@@ -17,21 +23,32 @@ router.get('/', function(req, res, next) {
     } else {
       res.json({ message: err});
     }
-  })
+  });
 });
-
 
 // ユーザーID、タイプを指定してドリップ
 router.post('/', (req, res) => {
   let Drip = new DripModel();
   Drip.user_id = req.body.user_id;
   Drip.type = req.body.type;
-  // Drip.setDate();
   Drip.save((err) => {
     if(err) {
       res.send(err);
     } else {
       res.json({ message: 'Success'});
+    }
+  });
+});
+
+// ユーザーID、タイプを指定して全期間の結果を取得
+router.get('/list/:id/:type', function(req, res, next) {
+  let userId = req.params.id;
+  let dripType = req.params.type;
+  DripModel.find({user_id: userId, type: dripType}, {__v: 0}, (err, drips) => {
+    if (!err) {
+      res.json(drips)
+    } else {
+      res.json({ message: err});
     }
   });
 });
@@ -88,32 +105,6 @@ router.get('/count', function(req, res, next) {
       });
     });
   });
-});
-
-router.get('/', function(req, res, next) {
-  let userId = req.query.userid || null;
-  if (userId == null) {
-    res.json({
-      "result": "err",
-      "message": "Request parameter is insufficient"
-    });
-  }
-  let dripType = req.query.type || 0;// default: 0(barista)
-  let sinceDay = req.query.since || moment.unix(0).format("YYYY-MM-DD");
-  let untilDay = req.query.until || moment().format("YYYY-MM-DD");
-
-  let query = {
-    user_id: userId,
-    date: {'$gte': new Date(sinceDay), '$lte': new Date(untilDay)}
-  }
-  if (false) {
-    query.type = dripType;
-  }
-
-  DripModel.find(query, (err, docs) => {
-    res.json(docs);
-  })
-
 });
 
 module.exports = router;
