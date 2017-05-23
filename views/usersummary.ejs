@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('header') -%>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <h1><%= id %></h1>
+    <%# ejsからjavascriptへの値渡し部分 (無理矢理感否めない)%>
+    <h2 style="display:none;" id="id"><%=id %></h2>
+    <table class="table">
+      <thead class="thead-default">
+        <tr>
+          <td>ID</td>
+          <td>タイプ</td>
+          <td>ユーザーID</td>
+          <td>時間</td>
+        </tr>
+      </thead>
+      <tbody id="driplist">
+      </tbody>
+    </table>
+
+    <%# ひとまずjQueryのAjaxでAPIから取得したJSONを表示%>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script type="text/javascript">
+    let id = $("#id").html();
+    let type = 2;
+    let getDripList = () => {
+      let elm = $("#driplist");
+      elm.empty();
+      $.ajax({
+        url: "/api/v1/drip/list/" + id + "/" + type
+      })
+      .then(
+        (data) => {
+          let list;
+          for (let i = 0; i < data.length; i++) {
+            let line = data[i];
+            list+= '<tr><td>';
+            list+= line['_id'];
+            list+= '</td><td>';
+            list+= line['type'];
+            list+= '</td><td>';
+            list+= line['user_id'];
+            list+= '</td><td>';
+            list+= line['date'];
+            list+= '</td>';
+            list+='</tr>';
+          }
+          list+= '</tbody>';
+          elm.append(list);
+        },
+        (err) => {
+          $("userlist").text(JSON.stringify({message: err}));
+        }
+      )
+    }
+
+    $(() => {
+      getDripList();
+    });
+    </script>
+  </body>
+</html>

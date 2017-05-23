@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('header') -%>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <table class="table">
+      <thead class="thead-default">
+        <tr>
+          <td>ID</td>
+          <td>名前</td>
+          <td>値段(¥)</td>
+        </tr>
+      </thead>
+      <tbody id="typelist">
+      </tbody>
+    </table>
+
+    <%# ひとまずjQueryのAjaxでAPIから取得したJSONを表示%>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script type="text/javascript">
+    let getUserList = () => {
+      let elm = $("#typelist");
+      elm.empty();
+      $.ajax({
+        url: "/api/v1/type"
+      })
+      .then(
+        (data) => {
+          let list;
+          for (let i = 0; i < data.length; i++) {
+            let line = data[i];
+            list+= '<tr><td>';
+            list+= line['id'];
+            list+= '</td><td>';
+            list+= line['name'];
+            list+= '</td><td>';
+            list+= line['price'];
+            list+= '</td>';
+            list+='</tr>';
+          }
+          list+= '</tbody>';
+          elm.append(list);
+        },
+        (err) => {
+          $("userlist").text(JSON.stringify({message: err}));
+        }
+      )
+    }
+
+    $(() => {
+      getUserList();
+    });
+    </script>
+  </body>
+</html>
