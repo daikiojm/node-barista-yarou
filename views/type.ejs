@@ -31,16 +31,12 @@
           let list;
           for (let i = 0; i < data.length; i++) {
             let line = data[i];
-            list+= '<tr><td>';
-            list+= line['id'];
-            list+= '</td><td>';
-            list+= line['name'];
-            list+= '</td><td>';
-            list+= line['price'];
-            list+= '</td>';
+            list+= '<tr>';
+            list+= '<td>' + line['id'] + '</td>';
+            list+= '<td>' + line['name'] + '</td>';
+            list+= '<td>' + line['price'] + '</td>';
             list+='</tr>';
           }
-          list+= '</tbody>';
           elm.append(list);
         },
         (err) => {

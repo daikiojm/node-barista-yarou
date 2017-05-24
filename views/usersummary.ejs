@@ -41,18 +41,13 @@
           let list;
           for (let i = 0; i < data.length; i++) {
             let line = data[i];
-            list+= '<tr><td>';
-            list+= line['_id'];
-            list+= '</td><td>';
-            list+= line['type'];
-            list+= '</td><td>';
-            list+= line['user_id'];
-            list+= '</td><td>';
-            list+= line['date'];
-            list+= '</td>';
+            list+= '<tr>';
+            list+= '<td>' + line['_id'] + '</td>';
+            list+= '<td>' + line['type'] + '</td>';
+            list+= '<td>' + line['user_id'] + '</td>';
+            list+= '<td>' + line['date'] + '</td>';
             list+='</tr>';
           }
-          list+= '</tbody>';
           elm.append(list);
         },
         (err) => {
