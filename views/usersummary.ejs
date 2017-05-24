@@ -79,7 +79,7 @@
     }
 
     // ここ追加でバグってる
-    let getNameById() => {
+    let getNameById = () => {
       let nameelm = $(".name");
       $.ajax({
         url: "/api/v1/user/" + id
