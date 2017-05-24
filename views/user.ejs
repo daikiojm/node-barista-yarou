@@ -12,6 +12,7 @@
           <td>ユーザー名</td>
           <td>パスワード</td>
           <td>Idm</td>
+          <td>操作</td>
         </tr>
       </thead>
       <tbody id="userlist">
@@ -32,16 +33,13 @@
           let list;
           for (let i = 0; i < data.length; i++) {
             let line = data[i];
-            list+= '<tr><td>';
-            list+= line['_id'];
-            list+= '</td><td><a href="../drip/list/'
-            list+= line['_id'] + '">';
-            list+= line['username'];
-            list+= '</a></td><td>';
-            list+= line['password'];
-            list+= '</td><td>';
-            list+= line['idm'];
-            list+= '</td>';
+            list+= '<tr>';
+            list+= '<td>' + line['_id'] + '</td>';
+            list+= '<td><a href="../drip/list/' + line['_id'] + '">' + line['username'] + '</a></td>';
+            list+= '<td>' + line['password'] + '</td>';
+            list+= '<td>' + line['idm'] + '</td>';
+            list+='<td><a href="./user/list" class="btn btn-success btn-sm" role="button">編集</a>'
+            list+='<a href="./user/list" class="btn btn-danger btn-sm" role="button">削除</a></td>'
             list+='</tr>';
           }
           list+= '</tbody>';
