@@ -28,6 +28,29 @@
     <%# ひとまずjQueryのAjaxでAPIから取得したJSONを表示%>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script type="text/javascript">
+
+    let formatDate = (date, format) => {
+      if (!format) format = 'YYYY-MM-DD hh:mm:ss.SSS';
+      format = format.replace(/YYYY/g, date.getFullYear());
+      format = format.replace(/MM/g, ('0' + (date.getMonth() + 1)).slice(-2));
+      format = format.replace(/DD/g, ('0' + date.getDate()).slice(-2));
+      format = format.replace(/hh/g, ('0' + date.getHours()).slice(-2));
+      format = format.replace(/mm/g, ('0' + date.getMinutes()).slice(-2));
+      format = format.replace(/ss/g, ('0' + date.getSeconds()).slice(-2));
+      if (format.match(/S/g)) {
+        let milliSeconds = ('00' + date.getMilliseconds()).slice(-3);
+        let length = format.match(/S/g).length;
+        for (let i = 0; i < length; i++) format = format.replace(/S/, milliSeconds.substring(i, i + 1));
+      }
+      return format;
+    }
+
+    let isoToformatDate = (isodate) => {
+      let date = new Date(isodate);
+      let formated = formatDate(date, 'YYYY-MM-DD hh:mm:ss');
+      return formated;
+    }
+
     let id = $("#id").html();
     let type = 2;
     let getDripList = () => {
@@ -45,7 +68,7 @@
             list+= '<td>' + line['_id'] + '</td>';
             list+= '<td>' + line['type'] + '</td>';
             list+= '<td>' + line['user_id'] + '</td>';
-            list+= '<td>' + line['date'] + '</td>';
+            list+= '<td>' + isoToformatDate(line['date']) + '</td>';
             list+='</tr>';
           }
           elm.append(list);
