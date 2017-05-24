@@ -50,7 +50,18 @@
       )
     }
 
-    let deleteUser = () => {
+    let deleteUser = (id) => {
+      $.ajax({
+        type: "DELETE",
+        url: "/api/v1/user/" + id
+      })
+      .then(
+        (data) => {
+        },
+        (err) => {
+          $("userlist").text(JSON.stringify({message: err}));
+        }
+      )
     }
 
     $(() => {

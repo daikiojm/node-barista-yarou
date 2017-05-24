@@ -74,6 +74,20 @@
       )
     }
 
+    let deleteDrip = (id) => {
+      $.ajax({
+        type: "DELETE",
+        url: "/api/v1/drip/" + id
+      })
+      .then(
+        (data) => {
+        },
+        (err) => {
+          $("userlist").text(JSON.stringify({message: err}));
+        }
+      )
+    }
+
     $(() => {
       getUserList();
     });
