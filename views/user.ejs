@@ -38,8 +38,8 @@
             list+= '<td><a href="../drip/list/' + line['_id'] + '">' + line['username'] + '</a></td>';
             list+= '<td>' + line['password'] + '</td>';
             list+= '<td>' + line['idm'] + '</td>';
-            list+='<td><button href="./user/list" class="btn btn-success btn-sm" role="button">編集</button>'
-            list+='<button id="delete" href="./user/list" class="btn btn-danger btn-sm" role="button">削除</button></td>'
+            list+='<td><button class="btn btn-success btn-sm" role="button">編集</button>'
+            list+='<button id="delete" class="btn btn-danger btn-sm" role="button">削除</button></td>'
             list+='</tr>';
           }
           elm.append(list);
