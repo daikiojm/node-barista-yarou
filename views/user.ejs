@@ -39,7 +39,7 @@
             list+= '<td>' + line['password'] + '</td>';
             list+= '<td>' + line['idm'] + '</td>';
             list+='<td><button class="btn btn-success btn-sm" role="button">編集</button>'
-            list+='<button id="delete" class="btn btn-danger btn-sm" role="button">削除</button></td>'
+            list+='<button class="delete btn btn-danger btn-sm" role="button">削除</button></td>'
             list+='</tr>';
           }
           elm.append(list);
@@ -66,11 +66,15 @@
       )
     }
 
+    // 動的に生成されたセレクタだと直接指定できない
+    // 参考: http://d.hatena.ne.jp/soratomo0714/20160908/p1
+    $('#userlist').on('click','.delete', function() {
+      alert("クリックされました");
+    });
     $(() => {
       getUserList();
 
     });
-    $("#delete").on("click", deleteUser);
-    </script>
+  </script>
   </body>
 </html>
