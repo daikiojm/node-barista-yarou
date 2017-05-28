@@ -27,7 +27,6 @@
     <script type="text/javascript">
 
     let deleteUser = (id) => {
-      console.log('deleteuser: ' + id);
       $.ajax({
         type: "DELETE",
         url: "/api/v1/user/" + id
@@ -56,22 +55,11 @@
       )
     }
 
-    // 動的に生成されたセレクタだと直接指定できない
-    // 参考: http://d.hatena.ne.jp/soratomo0714/20160908/p1
-    $('#userlist').on('click','.delete', function() {
-      let id = $(this).attr("id");
-      deleteUser(id);
-    });
-
     $('#adduser').submit(function(event) {
       event.preventDefault();
       let $form = $(this);
       let sendData = $form.serialize();
-      console.log(sendData);
       postUserData(sendData);
-    });
-    $(() => {
-      // getUserList();
     });
   </script>
   </body>
