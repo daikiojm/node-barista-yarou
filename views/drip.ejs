@@ -60,8 +60,8 @@
             list+= '<td>' + line['type'] + '</td>';
             list+= '<td>' + line['user_id'] + '</td>';
             list+= '<td>' + isoToformatDate(line['date']) + '</td>';
-            list+='<td><a href="./user/list" class="btn btn-success btn-sm" role="button">編集</a>'
-            list+='<a href="./user/list" class="btn btn-danger btn-sm" role="button">削除</a></td>'
+            list+='<td><button id="' + line['_id'] + '" class="btn btn-success btn-sm" role="button">編集</button>'
+            list+='<button id="' + line['_id'] + '" class="delete btn btn-danger btn-sm" role="button">削除</button></td>'
             list+='</tr>';
           }
           list+= '</tbody>';
@@ -86,6 +86,11 @@
         }
       )
     }
+
+    $('#driplist').on('click','.delete', function() {
+      let id = $(this).attr("id");
+      deleteDrip(id);
+    });
 
     $(() => {
       getUserList();
