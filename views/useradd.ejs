@@ -5,50 +5,26 @@
   </head>
   <body>
     <h1><%= title %></h1>
-    <table class="table">
-      <thead class="thead-default">
-        <tr>
-          <td>ユーザーID</td>
-          <td>ユーザー名</td>
-          <td>パスワード</td>
-          <td>Idm</td>
-          <td>操作</td>
-        </tr>
-      </thead>
-      <tbody id="userlist">
-      </tbody>
-    </table>
+    <div class="well">
+      <form method="post" id="adduser" action="./">
+        <div class="form-group">
+          <label>ユーザー名</label>
+          <input type="text" name=username class="form-control">
+        </div>
+        <div class="form-group">
+          <label>パスワード</label>
+          <input type="text" name=password class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Idm</label>
+          <input type="text" name=idm class="form-control">
+        </div>
+        <button class="btn btn-default" type="submit">登録</button>
+      </form>
+    </div>
 
-    <%# ひとまずjQueryのAjaxでAPIから取得したJSONを表示%>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script type="text/javascript">
-    let getUserList = () => {
-      let elm = $("#userlist");
-      elm.empty();
-      $.ajax({
-        url: "/api/v1/user"
-      })
-      .then(
-        (data) => {
-          let list;
-          for (let i = 0; i < data.length; i++) {
-            let line = data[i];
-            list+= '<tr>';
-            list+= '<td>' + line['_id'] + '</td>';
-            list+= '<td><a href="../drip/list/' + line['_id'] + '">' + line['username'] + '</a></td>';
-            list+= '<td>' + line['password'] + '</td>';
-            list+= '<td>' + line['idm'] + '</td>';
-            list+='<td><button id="' + line['_id'] + '" class="btn btn-success btn-sm" role="button">編集</button>'
-            list+='<button id="' + line['_id'] + '" class="delete btn btn-danger btn-sm" role="button">削除</button></td>'
-            list+='</tr>';
-          }
-          elm.append(list);
-        },
-        (err) => {
-          $("userlist").text(JSON.stringify({message: err}));
-        }
-      )
-    }
 
     let deleteUser = (id) => {
       console.log('deleteuser: ' + id);
@@ -65,14 +41,37 @@
       )
     }
 
+    let postUserData = (data) => {
+      $.ajax({
+        type: "POST",
+        url: "/api/v1/user/",
+        data: data
+      })
+      .then(
+        (data) => {
+        },
+        (err) => {
+          $("userlist").text(JSON.stringify({message: err}));
+        }
+      )
+    }
+
     // 動的に生成されたセレクタだと直接指定できない
     // 参考: http://d.hatena.ne.jp/soratomo0714/20160908/p1
     $('#userlist').on('click','.delete', function() {
       let id = $(this).attr("id");
       deleteUser(id);
     });
+
+    $('#adduser').submit(function(event) {
+      event.preventDefault();
+      let $form = $(this);
+      let sendData = $form.serialize();
+      console.log(sendData);
+      postUserData(sendData);
+    });
     $(() => {
-      getUserList();
+      // getUserList();
     });
   </script>
   </body>
