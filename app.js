@@ -5,6 +5,8 @@ var logger = require('morgan');
 var cookieParser = require('cookie-parser');
 var bodyParser = require('body-parser');
 const mongoose = require('mongoose');
+const session = require('express-session');
+const mongoStore = require('connect-mongo')(session);
 
 mongoose.Promise = global.Promise;
 mongoose.connect('mongodb://localhost:27017/node-barista-yarou');
@@ -21,6 +23,12 @@ var app = express();
 // view engine setup
 app.set('views', path.join(__dirname, 'views'));
 app.set('view engine', 'ejs');
+
+// set up session
+app.use(session({
+  secret: 'test',
+  store: new mongoStore({ mongooseConnection: mongoose.connection })
+}));
 
 // uncomment after placing your favicon in /public
 //app.use(favicon(path.join(__dirname, 'public', 'favicon.ico')));
