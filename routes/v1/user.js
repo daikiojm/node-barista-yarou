@@ -7,6 +7,11 @@ router.get('/list', (req, res) => {
   res.render('user', { title: 'ユーザー一覧' });
 });
 
+// ユーザー登録ページの表示
+router.get('/add', (req, res) => {
+  res.render('useradd', { title: 'ユーザー登録' });
+});
+
 // 新規ユーザーの登録
 router.post('/', (req, res, next) => {
   let User = new UserModel();
