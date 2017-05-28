@@ -109,8 +109,8 @@ router.get('/count', function(req, res, next) {
 
 // IDごとのドリップ情報の削除
 router.delete('/:id', function(req, res, next) {
-  let id = req.params.id;
-  DripModel.remove({_id:id})
+  let Id = req.params.id;
+  DripModel.remove({_id: Id})
     .then(() => {
       res.json({message: 'Success!!'});
     });

@@ -11,12 +11,13 @@
           <td>ID</td>
           <td>名前</td>
           <td>値段(¥)</td>
+          <td>操作</td>
         </tr>
       </thead>
       <tbody id="typelist">
       </tbody>
     </table>
-    
+
 
     <%# ひとまずjQueryのAjaxでAPIから取得したJSONを表示%>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
@@ -36,6 +37,8 @@
             list+= '<td>' + line['id'] + '</td>';
             list+= '<td>' + line['name'] + '</td>';
             list+= '<td>' + line['price'] + '</td>';
+            list+='<td><button id="' + line['_id'] + '" class="btn btn-success btn-sm" role="button">編集</button>'
+            list+='<button id="' + line['_id'] + '" class="delete btn btn-danger btn-sm" role="button">削除</button></td>'
             list+='</tr>';
           }
           elm.append(list);
@@ -45,6 +48,25 @@
         }
       )
     }
+
+    let deleteType = (id) => {
+      $.ajax({
+        type: "DELETE",
+        url: "/api/v1/type/" + id
+      })
+      .then(
+        (data) => {
+        },
+        (err) => {
+          $("userlist").text(JSON.stringify({message: err}));
+        }
+      )
+    }
+
+    $('#typelist').on('click','.delete', function() {
+      let Id = $(this).attr("id");
+      deleteType(Id);
+    });
 
     $(() => {
       getUserList();

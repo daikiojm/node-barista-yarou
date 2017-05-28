@@ -7,6 +7,11 @@ router.get('/list', (req, res) => {
   res.render('type', { title: '全コーヒー種別' });
 });
 
+// コーヒータイプ登録ページの表示
+router.get('/add', (req, res) => {
+  res.render('typeadd', { title: 'コーヒータイプ登録' });
+});
+
 router.get('/', (req, res) => {
   TypeModel
     .find()
