@@ -54,30 +54,44 @@ router.post('/', (req, res) => {
 router.get('/list/:id/:type', function(req, res, next) {
   let userId = req.params.id;
   let dripType = req.params.type;
-  DripModel.find({user_id: userId, type: dripType}, {__v: 0}, (err, drips) => {
-    if (!err) {
-      res.json(drips)
-    } else {
-      res.json({ message: err});
-    }
-  });
+  // session check
+  let sesIsAdmin = req.session.isadmin;
+  let sesId = req.session.user_id;
+  if (sesIsAdmin == true || userId == sesId) {
+    DripModel.find({user_id: userId, type: dripType}, {__v: 0}, (err, drips) => {
+      if (!err) {
+        res.json(drips)
+      } else {
+        res.json({ message: err});
+      }
+    });
+  } else {
+    res.send({ message: 'ユーザー認証エラー' });
+  }
 });
 
 // ユーザーID、タイプを指定して全期間の集計結果を取得
 router.get('/:id/:type', function(req, res, next) {
   let userId = req.params.id;
   let dripType = req.params.type;
-  DripModel.count({user_id: userId, type: dripType}, (err, c) => {
-    console.log(c);
-    TypeModel.findOne({id: dripType}, (err, docs) => {
-      console.log(docs);
-      let price = docs.price;
-      res.json({
-        "count": c,
-        "price": c * price
+  // session check
+  let sesIsAdmin = req.session.isadmin;
+  let sesId = req.session.user_id;
+  if (sesIsAdmin == true || userId == sesId) {
+    DripModel.count({user_id: userId, type: dripType}, (err, c) => {
+      console.log(c);
+      TypeModel.findOne({id: dripType}, (err, docs) => {
+        console.log(docs);
+        let price = docs.price;
+        res.json({
+          "count": c,
+          "price": c * price
+        });
       });
     });
-  });
+  } else {
+    res.send({ message: 'ユーザー認証エラー' });
+  }
 });
 
 // ユーザーID、タイプを指定して指定期間の集計結果を取得

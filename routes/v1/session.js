@@ -37,7 +37,8 @@ router.post('/login', function(req, res, next) {
         res.send('/api/v1');
       } else {
           let url = '/api/v1/drip/list/' + req.session.user_id;
-          res.redirect(url);
+          console.log(url);
+          res.send(url);
       }
     }
     else {
