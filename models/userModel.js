@@ -7,7 +7,8 @@ let Schema = mongoose.Schema;
 let UserSchema = new Schema({
   username: String,
   password: String,
-  idm: String
+  idm: String,
+  isadmin: Boolean
 });
 
 module.exports = mongoose.model('UserModel', UserSchema);

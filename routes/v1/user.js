@@ -7,25 +7,6 @@ router.get('/list', (req, res) => {
   res.render('user', { title: 'ユーザー一覧' });
 });
 
-// ユーザー登録ページの表示
-router.get('/add', (req, res) => {
-  res.render('useradd', { title: 'ユーザー登録' });
-});
-
-// 新規ユーザーの登録
-router.post('/', (req, res, next) => {
-  let User = new UserModel();
-  User.username = req.body.username;
-  User.password = req.body.password;
-  User.idm = req.body.idm;
-  User.save((err) => {
-    if(err) {
-      res.send(err);
-    } else {
-      res.json({ message: 'Success'});
-    }
-  });
-});
 
 // ユーザーリストの取得
 router.get('/', (req, res) => {

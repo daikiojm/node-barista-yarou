@@ -10,9 +10,19 @@ router.get('/list', (req, res) => {
 });
 
 // ユーザーごとのサマリーの表示
+// router.get('/list/:id', (req, res) => { // :id → ユーザーid
+//   let userId = req.params.id;
+//   res.render('usersummary', { title: 'サマリー', id: userId });
+// });
 router.get('/list/:id', (req, res) => { // :id → ユーザーid
   let userId = req.params.id;
-  res.render('usersummary', { title: 'サマリー', id: userId });
+  let sesIsAdmin = req.session.isadmin;
+  let sesId = req.session.user_id;
+  if (sesIsAdmin == true || userId == sesId) {
+    res.render('usersummary', { title: 'サマリー', id: userId });
+  } else {
+    res.render('sessionerror', { title: 'エラー', error: 'ユーザー認証エラー' });
+  }
 });
 
 // 全ドリップ履歴取得
