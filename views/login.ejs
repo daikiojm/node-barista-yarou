@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <%- include('header') -%>
+  </head>
+  <body>
+    <h1><%= title %></h1>
+    <div class="well">
+      <form method="post" id="adduser" action="./">
+        <div class="form-group">
+          <label>ユーザー名</label>
+          <input type="text" name=username class="form-control">
+        </div>
+        <div class="form-group">
+          <label>パスワード</label>
+          <input type="text" name=password class="form-control">
+        </div>
+        <div class="form-group">
+          <label>Idm</label>
+          <input type="text" name=idm class="form-control">
+        </div>
+        <button class="btn btn-default" type="submit">登録</button>
+      </form>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script type="text/javascript">
+
+    let postUserData = (data) => {
+      $.ajax({
+        type: "POST",
+        url: "/api/v1/user/",
+        data: data
+      })
+      .then(
+        (data) => {
+        },
+        (err) => {
+          $("userlist").text(JSON.stringify({message: err}));
+        }
+      )
+    }
+
+    $('#adduser').submit(function(event) {
+      event.preventDefault();
+      let $form = $(this);
+      let sendData = $form.serialize();
+      postUserData(sendData);
+    });
+  </script>
+  </body>
+</html>
