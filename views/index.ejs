@@ -1,21 +1,72 @@
 <!DOCTYPE html>
 <html>
   <head>
+    <!-- 共通ヘッダー -->
     <%- include('header') -%>
   </head>
   <body>
-    <h1><%= title %></h1>
+    <!-- NavBar -->
+    <%- include('navbar') -%>
+
+    <!-- モーダル・ダイアログ -->
+    <div class="modal fade" id="sampleModal" tabindex="-1">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+            <h4 class="modal-title">タイトル</h4>
+          </div>
+          <div class="modal-body">
+          本文
+          </div>
+          <div class="modal-footer">
+            <button type="button" class="btn btn-default" data-dismiss="modal">閉じる</button>
+            <button type="button" class="btn btn-primary">ボタン</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- 雑な対応 (マージン) -->
+    <p style="visibility:hidden">dummy</p>
+
+    <h3><%= subtitle %></h3>
+    <!-- リンク -->
     <div class="well">
       <h3>閲覧</h3>
-      <a href="v1/user/list" class="btn btn-default btn-lg btn-block" role="button">ユーザー一覧</a>
-      <a href="v1/drip/list" class="btn btn-default btn-lg btn-block" role="button">全履歴一覧</a>
-      <a href="v1/type/list" class="btn btn-default btn-lg btn-block" role="button">ドリップタイプ一覧</a>
+      <a href="/api/v1/user/list" class="btn btn-default btn-lg btn-block" role="button">ユーザー一覧</a>
+      <a href="/api/v1/drip/list" class="btn btn-default btn-lg btn-block" role="button">全履歴一覧</a>
+      <a href="/api/v1/type/list" class="btn btn-default btn-lg btn-block" role="button">ドリップタイプ一覧</a>
     </div>
     <div class="well">
       <h3>編集</h3>
-      <a href="v1/user/add" class="btn btn-default btn-lg btn-block" role="button">ユーザー、ICカード登録・削除</a>
-      <a href="v1/type/add" class="btn btn-default btn-lg btn-block" role="button">ドリップタイプ登録・削除</a>
+      <a href="/api/v1/user/register" class="btn btn-default btn-lg btn-block" role="button">ユーザー、ICカード登録・削除</a>
+      <a href="/api/v1/type/add" class="btn btn-default btn-lg btn-block" role="button">ドリップタイプ登録・削除</a>
 
     </div>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+    let logout = () => {
+      $.ajax({
+        type: "POST",
+        url: "/api/v1/logout/"
+      })
+      .then(
+        (data) => {
+            window.location.href = "/api/v1/login/";
+        },
+        (err) => {
+          $("userlist").text(JSON.stringify({message: err}));
+        }
+      )
+    }
+
+    $('#logout').on('click', function() {
+      $('#sampleModal').modal();
+      // logout();
+    });
+
+    </script>
   </body>
 </html>

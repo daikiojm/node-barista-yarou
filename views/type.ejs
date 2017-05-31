@@ -4,7 +4,14 @@
     <%- include('header') -%>
   </head>
   <body>
-    <h1><%= title %></h1>
+
+    <!-- NavBar -->
+    <%- include('navbar') -%>
+
+    <!-- 雑な対応 (マージン) -->
+    <p style="visibility:hidden">dummy</p>
+
+    <h3><%= subtitle %></h3>
     <table class="table">
       <thead class="thead-default">
         <tr>

@@ -50,8 +50,9 @@ router.post('/login', function(req, res, next) {
 
 // host/api/v1/logout
 router.post('/logout', function(req, res) {
-  delete req.session.user;
-  res.redirect('/');
+  delete req.session.user_id;
+  // res.redirect('/');
+  res.json({ message: 'Success'});
 });
 
 

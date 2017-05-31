@@ -4,24 +4,33 @@
     <%- include('header') -%>
   </head>
   <body>
-    <h1><%= title %></h1>
+
+    <!-- NavBar -->
+    <%- include('navbar') -%>
+
+    <!-- 雑な対応 (マージン) -->
+    <p style="visibility:hidden">dummy</p>
+
+    <h3><%= subtitle %></h3>
     <div class="well">
       <form method="post" id="adduser" action="./">
         <div class="form-group">
           <label>ユーザー名</label>
-          <input type="text" name=username class="form-control">
+          <input type="text" name=username class="form-control" required>
         </div>
         <div class="form-group">
           <label>パスワード</label>
-          <input type="text" name=password class="form-control">
+          <input type="text" name=password class="form-control" required>
         </div>
         <div class="form-group">
           <label>Idm</label>
-          <input type="text" name=idm class="form-control">
+          <input type="text" name=idm class="form-control" required>
         </div>
         <button class="btn btn-default" type="submit">登録</button>
       </form>
     </div>
+    <!-- ログイン画面へのリンク -->
+    <p style="text-align: center"><a href="user/register">新規登録はこちら</a></p>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script type="text/javascript">

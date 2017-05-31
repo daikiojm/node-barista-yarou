@@ -20,7 +20,11 @@ let loginCheck = (req, res, next) => {
 
 // host/api/v1/
 router.get('/', loginCheck, function(req, res, next) {
-  res.render('index', { title: 'バリスタ野郎 β' });
+  let pageData = {
+    title: 'バリスタ野郎 (β)',
+    subtitle: 'Admin'
+  }
+  res.render('index', pageData);
 });
 
 router.use('/', session);

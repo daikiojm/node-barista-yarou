@@ -6,22 +6,33 @@ let TypeModel = require('../../models/typeModel.js');
 
 // 全ドリップ履歴の表示
 router.get('/list', (req, res) => {
-  res.render('drip', { title: '全ドリップ履歴' });
+  let pageData = {
+    title: 'バリスタ野郎 (β)',
+    subtitle: 'ドリップ履歴'
+  }
+  res.render('drip', pageData);
 });
 
 // ユーザーごとのサマリーの表示
-// router.get('/list/:id', (req, res) => { // :id → ユーザーid
-//   let userId = req.params.id;
-//   res.render('usersummary', { title: 'サマリー', id: userId });
-// });
-router.get('/list/:id', (req, res) => { // :id → ユーザーid
+// :id → ユーザーid
+router.get('/list/:id', (req, res) => {
   let userId = req.params.id;
   let sesIsAdmin = req.session.isadmin;
   let sesId = req.session.user_id;
   if (sesIsAdmin == true || userId == sesId) {
-    res.render('usersummary', { title: 'サマリー', id: userId });
+    let pageData = {
+      title: 'バリスタ野郎 (β)',
+      subtitle: 'サマリー',
+      id: userId
+    };
+    res.render('usersummary', pageData);
   } else {
-    res.render('sessionerror', { title: 'エラー', error: 'ユーザー認証エラー' });
+    let pageData = {
+      title: 'バリスタ野郎 (β)',
+      subtitle: 'エラー',
+      error: 'ユーザー認証エラー'
+    }
+    res.render('sessionerror', pageData);
   }
 });
 

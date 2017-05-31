@@ -4,7 +4,11 @@ let UserModel = require('../../models/userModel.js');
 
 // ユーザーリストページの表示
 router.get('/list', (req, res) => {
-  res.render('user', { title: 'ユーザー一覧' });
+  let pageData = {
+    title: 'バリスタ野郎 (β)',
+    subtitle: 'ユーザー一覧'
+  }
+  res.render('user', pageData);
 });
 
 

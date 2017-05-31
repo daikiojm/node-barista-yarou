@@ -4,12 +4,20 @@ let TypeModel = require('../../models/typeModel.js');
 
 // 全コーヒー種別の表示
 router.get('/list', (req, res) => {
-  res.render('type', { title: '全コーヒー種別' });
+  let pageData = {
+    title: 'バリスタ野郎 (β)',
+    subtitle: '全コーヒー種別',
+  }
+  res.render('type', pageData);
 });
 
 // コーヒータイプ登録ページの表示
 router.get('/add', (req, res) => {
-  res.render('typeadd', { title: 'コーヒータイプ登録' });
+  let pageData = {
+    title: 'バリスタ野郎 (β)',
+    subtitle: 'コーヒー種別登録',
+  }
+  res.render('typeadd', pageData);
 });
 
 router.get('/', (req, res) => {

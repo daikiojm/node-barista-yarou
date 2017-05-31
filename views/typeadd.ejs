@@ -4,7 +4,13 @@
     <%- include('header') -%>
   </head>
   <body>
-    <h1><%= title %></h1>
+    <!-- NavBar -->
+    <%- include('navbar') -%>
+
+    <!-- 雑な対応 (マージン) -->
+    <p style="visibility:hidden">dummy</p>
+
+    <h3><%= subtitle %></h3>
     <div class="well">
       <form method="post" id="addtype" action="./">
         <div class="form-group">
