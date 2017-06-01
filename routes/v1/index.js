@@ -1,6 +1,6 @@
-var express = require('express');
-var router = express.Router();
-
+'use strict';
+const express = require('express');
+let router = express.Router();
 let session = require('./session.js');
 let user = require('./user.js');
 let drip = require('./coffee.js');

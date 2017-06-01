@@ -1,5 +1,6 @@
-var express = require('express');
-var router = express.Router();
+'use strict';
+const express = require('express');
+let router = express.Router();
 let TypeModel = require('../../models/typeModel.js');
 
 // 全コーヒー種別の表示
@@ -56,7 +57,7 @@ router.put('/:id', (req, res) => {
         // type.id = req.body.id || type.id;
         type.name = req.body.name || type.name;
         type.price = req.body.price || type.price;
-
+        // 保存
         type.save((err) => {
           if(err) {
             res.send(err);

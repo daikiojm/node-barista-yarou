@@ -1,5 +1,6 @@
-var express = require('express');
-var router = express.Router();
+'use strict';
+const express = require('express');
+let router = express.Router();
 let UserModel = require('../../models/userModel.js');
 let DripModel = require('../../models/dripModel.js');
 

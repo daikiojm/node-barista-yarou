@@ -1,5 +1,6 @@
-var express = require('express');
-var router = express.Router();
+'use strict';
+const express = require('express');
+let router = express.Router();
 let UserModel = require('../../models/userModel.js');
 
 // ユーザーリストページの表示
@@ -44,7 +45,7 @@ router.put('/:id', (req, res) => {
         user.username = req.body.username || user.username;
         user.password = req.body.password || user.password;
         user.idm = req.body.idm || user.idm;
-
+        // 保存
         user.save((err) => {
           if(err) {
             res.send(err);
