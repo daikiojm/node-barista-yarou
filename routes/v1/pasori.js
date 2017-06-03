@@ -9,6 +9,8 @@ router.get('/', function(req, res, next) {
   res.send('respond with a resource');
 });
 
+// TODO : Slack通知機能
+
 // drip by idm
 // ひとまずtypeは固定とする
 router.get('/:idm', function(req, res, next) {
