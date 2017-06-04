@@ -13,6 +13,7 @@ router.get('/user/register', (req, res) => {
   res.render('useradd', { title: 'ユーザー登録' });
 });
 
+// ログイン
 // host/api/v1/login
 router.post('/login', function(req, res, next) {
   // 簡単なバリデーション
@@ -49,6 +50,7 @@ router.post('/login', function(req, res, next) {
   });
 });
 
+// ログアウト
 // host/api/v1/logout
 router.post('/logout', function(req, res) {
   delete req.session.user_id;

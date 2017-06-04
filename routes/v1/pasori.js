@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
 
 // TODO : Slack通知機能
 
-// drip by idm
+// Idmを指定してドリップ
 // ひとまずtypeは固定とする
 router.get('/:idm', function(req, res, next) {
   let Idm = req.params.idm;
