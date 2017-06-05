@@ -1,4 +1,5 @@
 {
+  "service_name": "バリスタ野郎 (β)",
   "database": "mongodb://localhost:27017/node-barista-yarou",
 	"__end__": ""
 }
