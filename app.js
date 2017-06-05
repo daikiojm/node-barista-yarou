@@ -7,9 +7,11 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const mongoStore = require('connect-mongo')(session);
+let config = require('./config/service.json');
 
 mongoose.Promise = global.Promise;
-mongoose.connect('mongodb://localhost:27017/node-barista-yarou');
+// mongoose.connect('mongodb://localhost:27017/node-barista-yarou');
+mongoose.connect(config.database);
 mongoose.connection.on('error', (err) => {
   console.error('MongoDB connection error: ' + err);
   process.exit(-1);
