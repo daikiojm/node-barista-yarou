@@ -1,11 +1,37 @@
 <nav class="navbar navbar-default navbar-fixed-top">
   <a href="#" class="navbar-brand"><%= title %></a>
+  <% if (menu !== false) { %>
   <div id="gnavi" class="collapse navbar-collapse navbar-right">
     <ul class="nav navbar-nav">
       <li><a href="/api/v1/top">Top</a></li>
-      <li><a href="">ログアウト</a></li>
+      <li><a id="logout" href="">ログアウト</a></li>
       <!-- 雑な対応 -->
       <li style="visibility:hidden">dummy</li>
     </ul>
   </div>
+  <% } %>
 </nav>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script type="text/javascript">
+let logout = () => {
+  $.ajax({
+    type: "POST",
+    url: "/api/v1/logout/"
+  })
+  .then(
+    (data) => {
+      console.log(data);
+        window.location.href = "/api/v1/login/";
+    },
+    (err) => {
+      $("userlist").text(JSON.stringify({message: err}));
+    }
+  )
+}
+
+$('#logout').on('click', function() {
+  logout();
+});
+
+</script>

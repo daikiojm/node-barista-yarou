@@ -41,7 +41,7 @@
             let line = data[i];
             list+= '<tr>';
             list+= '<td>' + line['_id'] + '</td>';
-            list+= '<td><a href="../drip/list/' + line['_id'] + '">' + line['username'] + '</a></td>';
+            list+= '<td><a href="../usersummary/' + line['_id'] + '">' + line['username'] + '</a></td>';
             list+= '<td>' + line['password'] + '</td>';
             list+= '<td>' + line['idm'] + '</td>';
             list+='<td><button id="' + line['_id'] + '" class="btn btn-success btn-sm" role="button">編集</button>'

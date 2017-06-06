@@ -17,6 +17,7 @@ router.get('/:id', (req, res) => {
     let pageData = {
       title: config.service_name,
       subtitle: 'サマリー',
+      menu: true,
       id: userId
     };
     res.render('usersummary', pageData);
@@ -24,6 +25,7 @@ router.get('/:id', (req, res) => {
     let pageData = {
       title: config.service_name,
       subtitle: 'エラー',
+      menu: true,
       error: 'ユーザー認証エラー'
     }
     res.render('sessionerror', pageData);

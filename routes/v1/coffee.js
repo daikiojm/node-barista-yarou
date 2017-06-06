@@ -11,7 +11,8 @@ let sessionHelper = require('../../lib/sessionhelper.js');
 router.get('/list', sessionHelper.adminCheck, (req, res) => {
   let pageData = {
     title: config.service_name,
-    subtitle: 'ドリップ履歴'
+    subtitle: 'ドリップ履歴',
+    menu: true
   }
   res.render('drip', pageData);
 });
@@ -53,7 +54,8 @@ router.get('/list/:id/:type', sessionHelper.loginCheck, (req, res, next) => {
       if (!err) {
         res.json(drips)
       } else {
-        res.json({ message: err});
+        console.log(err);
+        res.json({ message: "ドリップ履歴が見つかりません。" });
       }
     });
   } else {
@@ -70,15 +72,31 @@ router.get('/:id/:type', sessionHelper.loginCheck, (req, res, next) => {
   let sesId = req.session.user_id;
   if (sesIsAdmin == true || userId == sesId) {
     DripModel.count({user_id: userId, type: dripType}, (err, c) => {
-      console.log(c);
-      TypeModel.findOne({id: dripType}, (err, docs) => {
-        console.log(docs);
-        let price = docs.price;
-        res.json({
-          "count": c,
-          "price": c * price
+      if (!err) {
+        console.log(c);
+        TypeModel.findOne({id: dripType}, (err, docs) => {
+          if (!err) {
+            console.log(docs);
+            let price = docs.price;
+            res.json({
+              "count": c,
+              "price": c * price
+            });
+          } else {
+            res.json({
+              "count": 0,
+              "price": 0,
+              "message": "ドリップ履歴が見つかりません。"
+            });
+          }
         });
-      });
+      } else {
+        res.json({
+          "count": 0,
+          "price": 0,
+          "message": "ドリップ履歴が見つかりません。"
+        });
+      }
     });
   } else {
     res.send({ message: 'ユーザー認証エラー' });

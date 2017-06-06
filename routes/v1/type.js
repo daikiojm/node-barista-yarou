@@ -10,6 +10,7 @@ router.get('/list', sessionHelper.adminCheck, (req, res) => {
   let pageData = {
     title: config.service_name,
     subtitle: '全コーヒー種別',
+    menu: true
   }
   res.render('type', pageData);
 });
@@ -19,6 +20,7 @@ router.get('/add', sessionHelper.adminCheck, (req, res) => {
   let pageData = {
     title: config.service_name,
     subtitle: 'コーヒー種別登録',
+    menu: true
   }
   res.render('typeadd', pageData);
 });

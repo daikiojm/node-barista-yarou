@@ -8,7 +8,8 @@ let config = require('../../config/service.json');
 router.get('/', function(req, res, next) {
   let pageData = {
     title: config.service_name,
-    subtitle: 'Admin'
+    subtitle: 'Admin',
+    menu: true
   }
   res.render('index', pageData);
 });

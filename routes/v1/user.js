@@ -9,7 +9,8 @@ let sessionHelper = require('../../lib/sessionhelper.js');
 router.get('/list', sessionHelper.adminCheck, (req, res) => {
   let pageData = {
     title: config.service_name,
-    subtitle: 'ユーザー一覧'
+    subtitle: 'ユーザー一覧',
+    menu: true
   }
   res.render('user', pageData);
 });

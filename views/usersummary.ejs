@@ -63,10 +63,11 @@
       let elm = $("#driplist");
       elm.empty();
       $.ajax({
-        url: "/api/v1/drip/list/" + id + "/" + type
+        url: "/list/api/v1/drip/" + id + "/" + type
       })
       .then(
         (data) => {
+          console.log(data);
           let list;
           for (let i = 0; i < data.length; i++) {
             let line = data[i];
