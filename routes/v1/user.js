@@ -2,11 +2,13 @@
 const express = require('express');
 let router = express.Router();
 let UserModel = require('../../models/userModel.js');
+let config = require('../../config/service.json');
+let sessionHelper = require('../../lib/sessionhelper.js');
 
 // ユーザーリストページの表示
-router.get('/list', (req, res) => {
+router.get('/list', sessionHelper.adminCheck, (req, res) => {
   let pageData = {
-    title: 'バリスタ野郎 (β)',
+    title: config.service_name,
     subtitle: 'ユーザー一覧'
   }
   res.render('user', pageData);
@@ -14,7 +16,7 @@ router.get('/list', (req, res) => {
 
 
 // ユーザーリストの取得
-router.get('/', (req, res) => {
+router.get('/', sessionHelper.adminCheck, (req, res) => {
   UserModel.find({}, {__v: 0}, (err, users) => {
     if (!err) {
       res.json(users)
@@ -25,7 +27,7 @@ router.get('/', (req, res) => {
 });
 
 // IDごとのユーザー情報の取得
-router.get('/:id', (req, res) => {
+router.get('/:id', sessionHelper.loginCheck, (req, res) => {
   let Userid = req.params.id;
   UserModel
     .findById(Userid, (err, user) => {
@@ -34,7 +36,7 @@ router.get('/:id', (req, res) => {
 });
 
 // IDごとのユーザー情報の変更
-router.put('/:id', (req, res) => {
+router.put('/:id', sessionHelper.loginCheck, (req, res) => {
   let Userid = req.params.id;
   UserModel
     .findById(Userid, (err, user) => {
@@ -58,7 +60,7 @@ router.put('/:id', (req, res) => {
 });
 
 // IDごとのユーザー情報の削除
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', sessionHelper.loginCheck, (req, res, next) => {
   let Userid = req.params.id;
   UserModel.remove({_id:Userid})
     .then(() => {

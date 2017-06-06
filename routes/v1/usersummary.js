@@ -5,6 +5,7 @@ let router = express.Router();
 let DripModel = require('../../models/dripModel.js');
 let TypeModel = require('../../models/typeModel.js');
 let config = require('../../config/service.json');
+let sessionHelper = require('../../lib/sessionhelper.js');
 
 // ユーザーごとのサマリーの表示
 // :id → ユーザーid

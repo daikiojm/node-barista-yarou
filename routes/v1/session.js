@@ -6,7 +6,16 @@ let config = require('../../config/service.json');
 
 // host/api/v1/login
 router.get('/login', function(req, res, next) {
-  res.render('login', { title: config.service_name });
+  if (req.session.user_id) {
+    if (req.session.isadmin) {
+      res.redirect('/api/v1/top');
+    } else {
+      let url = '/api/v1/usersummary/' + req.session.user_id;
+      res.redirect(url)
+    }
+  } else {
+    res.render('login', { title: config.service_name });
+  }
 });
 
 // ユーザー登録ページの表示

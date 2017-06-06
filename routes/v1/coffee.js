@@ -5,9 +5,10 @@ let router = express.Router();
 let DripModel = require('../../models/dripModel.js');
 let TypeModel = require('../../models/typeModel.js');
 let config = require('../../config/service.json');
+let sessionHelper = require('../../lib/sessionhelper.js');
 
 // 全ドリップ履歴の表示
-router.get('/list', (req, res) => {
+router.get('/list', sessionHelper.adminCheck, (req, res) => {
   let pageData = {
     title: config.service_name,
     subtitle: 'ドリップ履歴'
@@ -15,31 +16,8 @@ router.get('/list', (req, res) => {
   res.render('drip', pageData);
 });
 
-// ユーザーごとのサマリーの表示
-// :id → ユーザーid
-router.get('/list/:id', (req, res) => {
-  let userId = req.params.id;
-  let sesIsAdmin = req.session.isadmin;
-  let sesId = req.session.user_id;
-  if (sesIsAdmin == true || userId == sesId) {
-    let pageData = {
-      title: 'バリスタ野郎 (β)',
-      subtitle: 'サマリー',
-      id: userId
-    };
-    res.render('usersummary', pageData);
-  } else {
-    let pageData = {
-      title: 'バリスタ野郎 (β)',
-      subtitle: 'エラー',
-      error: 'ユーザー認証エラー'
-    }
-    res.render('sessionerror', pageData);
-  }
-});
-
 // 全ドリップ履歴取得
-router.get('/', function(req, res, next) {
+router.get('/', sessionHelper.adminCheck, (req, res, next) => {
   DripModel.find({}, {__v: 0}, (err, drips) => {
     if (!err) {
       res.json(drips)
@@ -50,7 +28,7 @@ router.get('/', function(req, res, next) {
 });
 
 // ユーザーID、タイプを指定してドリップ
-router.post('/', (req, res) => {
+router.post('/', sessionHelper.loginCheck, (req, res) => {
   let Drip = new DripModel();
   Drip.user_id = req.body.user_id;
   Drip.type = req.body.type;
@@ -64,7 +42,7 @@ router.post('/', (req, res) => {
 });
 
 // ユーザーID、タイプを指定して全期間の結果を取得
-router.get('/list/:id/:type', function(req, res, next) {
+router.get('/list/:id/:type', sessionHelper.loginCheck, (req, res, next) => {
   let userId = req.params.id;
   let dripType = req.params.type;
   // session check
@@ -84,7 +62,7 @@ router.get('/list/:id/:type', function(req, res, next) {
 });
 
 // ユーザーID、タイプを指定して全期間の集計結果を取得
-router.get('/:id/:type', function(req, res, next) {
+router.get('/:id/:type', sessionHelper.loginCheck, (req, res, next) => {
   let userId = req.params.id;
   let dripType = req.params.type;
   // session check
@@ -109,7 +87,7 @@ router.get('/:id/:type', function(req, res, next) {
 
 // ユーザーID、タイプを指定して指定期間の集計結果を取得
 // drip?userid=d_ojima&type=0&since=2017-04-22&until=2017-04-24
-router.get('/count', function(req, res, next) {
+router.get('/count', sessionHelper.loginCheck, (req, res, next) => {
   let userId = req.query.userid || null;
   if (userId == null) {
     res.json({
@@ -145,7 +123,7 @@ router.get('/count', function(req, res, next) {
 });
 
 // IDごとのドリップ情報の削除
-router.delete('/:id', function(req, res, next) {
+router.delete('/:id', sessionHelper.loginCheck, (req, res, next) => {
   let Id = req.params.id;
   DripModel.remove({_id: Id})
     .then(() => {
