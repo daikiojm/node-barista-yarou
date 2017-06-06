@@ -6,6 +6,7 @@ let user = require('./user.js');
 let drip = require('./coffee.js');
 let type = require('./type.js');
 let pasori = require('./pasori.js');
+let config = require('../../config/service.json');
 
 // check login session
 // only administrator
@@ -21,7 +22,7 @@ let loginCheck = (req, res, next) => {
 // host/api/v1/
 router.get('/', loginCheck, function(req, res, next) {
   let pageData = {
-    title: 'バリスタ野郎 (β)',
+    title: config.service_name,
     subtitle: 'Admin'
   }
   res.render('index', pageData);

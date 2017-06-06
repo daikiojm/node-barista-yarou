@@ -3,6 +3,7 @@ const express = require('express');
 let router = express.Router();
 let UserModel = require('../../models/userModel.js');
 let DripModel = require('../../models/dripModel.js');
+let config = require('../../config/service.json');
 
 /* GET users listing. */
 router.get('/', function(req, res, next) {

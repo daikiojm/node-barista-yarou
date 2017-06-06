@@ -2,10 +2,11 @@
 const express = require('express');
 let router = express.Router();
 let UserModel = require('../../models/userModel.js');
+let config = require('../../config/service.json');
 
 // host/api/v1/login
 router.get('/login', function(req, res, next) {
-  res.render('login', { title: 'バリスタ野郎 β' });
+  res.render('login', { title: config.service_name });
 });
 
 // ユーザー登録ページの表示

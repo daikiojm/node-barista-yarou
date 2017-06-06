@@ -2,11 +2,12 @@
 const express = require('express');
 let router = express.Router();
 let TypeModel = require('../../models/typeModel.js');
+let config = require('../../config/service.json');
 
 // 全コーヒー種別の表示
 router.get('/list', (req, res) => {
   let pageData = {
-    title: 'バリスタ野郎 (β)',
+    title: config.service_name,
     subtitle: '全コーヒー種別',
   }
   res.render('type', pageData);
@@ -15,7 +16,7 @@ router.get('/list', (req, res) => {
 // コーヒータイプ登録ページの表示
 router.get('/add', (req, res) => {
   let pageData = {
-    title: 'バリスタ野郎 (β)',
+    title: config.service_name,
     subtitle: 'コーヒー種別登録',
   }
   res.render('typeadd', pageData);

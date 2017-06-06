@@ -4,11 +4,12 @@ const moment = require('moment');
 let router = express.Router();
 let DripModel = require('../../models/dripModel.js');
 let TypeModel = require('../../models/typeModel.js');
+let config = require('../../config/service.json');
 
 // 全ドリップ履歴の表示
 router.get('/list', (req, res) => {
   let pageData = {
-    title: 'バリスタ野郎 (β)',
+    title: config.service_name,
     subtitle: 'ドリップ履歴'
   }
   res.render('drip', pageData);
