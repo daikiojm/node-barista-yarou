@@ -11,7 +11,7 @@ router.get('/', function(req, res, next) {
     subtitle: 'Admin',
     menu: true
   }
-  res.render('index', pageData);
+  res.render('top', pageData);
 });
 
 module.exports = router;
