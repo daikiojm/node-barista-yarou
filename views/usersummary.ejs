@@ -63,7 +63,7 @@
       let elm = $("#driplist");
       elm.empty();
       $.ajax({
-        url: "/list/api/v1/drip/" + id + "/" + type
+        url: "/api/v1/drip/list/" + id + "/" + type
       })
       .then(
         (data) => {
