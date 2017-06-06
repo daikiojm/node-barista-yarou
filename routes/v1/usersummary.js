@@ -8,7 +8,7 @@ let config = require('../../config/service.json');
 
 // ユーザーごとのサマリーの表示
 // :id → ユーザーid
-router.get('/list/:id', (req, res) => {
+router.get('/:id', (req, res) => {
   let userId = req.params.id;
   let sesIsAdmin = req.session.isadmin;
   let sesId = req.session.user_id;

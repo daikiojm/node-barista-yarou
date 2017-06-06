@@ -37,9 +37,9 @@ router.post('/login', function(req, res, next) {
       req.session.user_id = data[0]._id;
       req.session.isadmin = data[0].isadmin;
       if (req.session.isadmin) {
-        res.send('/api/v1');
+        res.send('/api/v1/top');
       } else {
-          let url = '/api/v1/drip/list/' + req.session.user_id;
+          let url = '/api/v1/usersummary/' + req.session.user_id;
           console.log(url);
           res.send(url);
       }

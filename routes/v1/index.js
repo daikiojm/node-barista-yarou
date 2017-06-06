@@ -28,23 +28,17 @@ let loginCheck = (req, res, next) => {
   }
 }
 
-// host/api/v1/
-router.get('/', loginCheck, function(req, res, next) {
-  let pageData = {
-    title: config.service_name,
-    subtitle: 'Admin'
-  }
-  res.render('index', pageData);
-});
-
-router.use('/', session);
+// admin領域
 router.use('/top', adminCheck, top);
 router.use('/user', adminCheck, user);
 router.use('/drip', adminCheck, drip);
 router.use('/type', adminCheck, type);
+
+// user領域
+router.use('/', session);
 router.use('/usersummary', loginCheck, usersummary);
+
 // localhostからのアクセスしか想定しないため認証不要
 router.use('/pasori', pasori);
-
 
 module.exports = router;
