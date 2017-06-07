@@ -11,6 +11,19 @@
     <p style="visibility:hidden">dummy</p>
 
     <h3><%= subtitle %></h3>
+
+    <!-- 雑な対応 (マージン) -->
+    <p style="visibility:hidden">dummy</p>
+
+    <h4>期間を選択</h4>
+    <!-- TODO 期間選択ダイアログを表示して細かく期間指定できるようにする -->
+    <a href="#" id="lastmonth" class="btn btn-default" role="button">先月</a>
+    <a href="#" id="thismonth" class="btn btn-default" role="button">今月</a>
+    <a href="#" id="all" class="btn btn-default" role="button">全期間</a>
+
+    <!-- 雑な対応 (マージン) -->
+    <p style="visibility:hidden">dummy</p>
+
     <div class="well">
         <p class="name">名前: </p>
         <p class="count">合計: </p>
@@ -122,6 +135,18 @@
       getNameById();
       getDripList();
       getSum();
+    });
+
+    $('#lastmonth').on('click', function() {
+      console.log('click lastmonth');
+    });
+
+    $('#thismonth').on('click', function() {
+      console.log('click thismonth');
+    });
+
+    $('#all').on('click', function() {
+      console.log('click all');
     });
     </script>
   </body>

@@ -63,6 +63,33 @@ router.get('/list/:id/:type', sessionHelper.loginCheck, (req, res, next) => {
   }
 });
 
+
+// ユーザーID、タイプを指定して指定期間の結果を取得
+// http://localhost:3000/api/v1/drip/list/592a5a0aa61902205725bbfa/2/span?since=2017-04-22&until=2017-06-24
+router.get('/list/:id/:type/span', sessionHelper.loginCheck, (req, res, next) => {
+  let userId = req.params.id;
+  let dripType = req.params.type || 0;// default: 0(barista)
+  // session check
+  let sesIsAdmin = req.session.isadmin;
+  let sesId = req.session.user_id;
+  if (sesIsAdmin == true || userId == sesId) {
+    // GETパラメータで期間を取得
+    let sinceDay = req.query.since || moment.unix(0).format("YYYY-MM-DD");
+    let untilDay = req.query.until || moment().format("YYYY-MM-DD");
+    DripModel.find({user_id: userId, type: dripType,
+       "date": {'$gte': new Date(sinceDay), '$lte': new Date(untilDay)}}, {__v: 0}, (err, drips) => {
+      if (!err) {
+        res.json(drips)
+      } else {
+        console.log(err);
+        res.json({ message: "ドリップ履歴が見つかりません。" });
+      }
+    });
+  } else {
+    res.send({ message: 'ユーザー認証エラー' });
+  }
+});
+
 // ユーザーID、タイプを指定して全期間の集計結果を取得
 router.get('/:id/:type', sessionHelper.loginCheck, (req, res, next) => {
   let userId = req.params.id;
@@ -113,31 +140,38 @@ router.get('/count', sessionHelper.loginCheck, (req, res, next) => {
       "message": "Request parameter is insufficient"
     });
   }
-  let dripType = req.query.type || 0;// default: 0(barista)
-  let sinceDay = req.query.since || moment.unix(0).format("YYYY-MM-DD");
-  let untilDay = req.query.until || moment().format("YYYY-MM-DD");
-  // Set the range to select date
-  // ref : https://www.quora.com/Node-js-How-do-range-query-in-mongoose
-  // 境界値を含む場合: $gte, $lte
-  // 境界値を含まない場合: $gt, $lt
-  DripModel.count({user_id: userId, type: dripType, "date": {'$gte': new Date(sinceDay), '$lte': new Date(untilDay)}}, (err, c) => {
-    console.log(c);
-    TypeModel.findOne({id: dripType}, (err, docs) => {
-      if (err) {
+  // session check
+  let sesIsAdmin = req.session.isadmin;
+  let sesId = req.session.user_id;
+  if (sesIsAdmin == true || userId == sesId) {
+    let dripType = req.query.type || 0;// default: 0(barista)
+    let sinceDay = req.query.since || moment.unix(0).format("YYYY-MM-DD");
+    let untilDay = req.query.until || moment().format("YYYY-MM-DD");
+    // Set the range to select date
+    // ref : https://www.quora.com/Node-js-How-do-range-query-in-mongoose
+    // 境界値を含む場合: $gte, $lte
+    // 境界値を含まない場合: $gt, $lt
+    DripModel.count({user_id: userId, type: dripType, "date": {'$gte': new Date(sinceDay), '$lte': new Date(untilDay)}}, (err, c) => {
+      console.log(c);
+      TypeModel.findOne({id: dripType}, (err, docs) => {
+        if (err) {
+          res.json({
+            "result": "err",
+            "message" : err
+          });
+        }
+        console.log(docs);
+        let price = docs.price || 0;
         res.json({
-          "result": "err",
-          "message" : err
+          "result": "success",
+          "count": c,
+          "price": c * price
         });
-      }
-      console.log(docs);
-      let price = docs.price || 0;
-      res.json({
-        "result": "success",
-        "count": c,
-        "price": c * price
       });
     });
-  });
+  } else {
+    res.send({ message: 'ユーザー認証エラー' });
+  }
 });
 
 // IDごとのドリップ情報の削除
