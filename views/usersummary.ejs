@@ -180,6 +180,7 @@
     }
 
     $(() => {
+      // 初期状態では全期間のデータを取得
       getNameById();
       getDripList();
       getSum();
@@ -203,7 +204,20 @@
     });
 
     $('#thismonth').on('click', function() {
-      console.log('click thismonth');
+      // 今月の初日と最終日を求める
+      let date = new Date();
+      let year = date.getYear() + 1900;
+      let month = date.getMonth();
+      let firstDayOfThisMonth = new Date(year, month, 1);
+      let lastDayOfThisMonth = new Date(year, month + 1, 0);
+
+      // APIのパラメータに合わせてフォーマット
+      let formatedSince = formatDate(firstDayOfThisMonth, 'YYYY-MM-DD');
+      let formatedUntil = formatDate(lastDayOfThisMonth, 'YYYY-MM-DD');
+
+      // APIからのデータ取得とDOM更新
+      getSumWithSpan(formatedSince, formatedUntil);
+      getDripListWithSpan(formatedSince, formatedUntil);
     });
 
     $('#all').on('click', function() {
