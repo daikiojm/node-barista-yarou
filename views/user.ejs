@@ -64,6 +64,7 @@
       })
       .then(
         (data) => {
+          getUserList();
         },
         (err) => {
           $("userlist").text(JSON.stringify({message: err}));

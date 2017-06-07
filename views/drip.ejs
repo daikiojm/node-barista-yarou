@@ -51,7 +51,7 @@
       return formated;
     }
 
-    let getUserList = () => {
+    let getDripList = () => {
       let elm = $("#driplist");
       elm.empty();
       $.ajax({
@@ -87,6 +87,7 @@
       })
       .then(
         (data) => {
+            getDripList();
         },
         (err) => {
           $("userlist").text(JSON.stringify({message: err}));
@@ -100,7 +101,7 @@
     });
 
     $(() => {
-      getUserList();
+      getDripList();
     });
     </script>
   </body>

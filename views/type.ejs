@@ -28,7 +28,7 @@
     <%# ひとまずjQueryのAjaxでAPIから取得したJSONを表示%>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.js"></script>
     <script type="text/javascript">
-    let getUserList = () => {
+    let getTypeList = () => {
       let elm = $("#typelist");
       elm.empty();
       $.ajax({
@@ -62,6 +62,7 @@
       })
       .then(
         (data) => {
+            getTypeList();
         },
         (err) => {
           $("userlist").text(JSON.stringify({message: err}));
@@ -75,7 +76,7 @@
     });
 
     $(() => {
-      getUserList();
+      getTypeList();
     });
     </script>
   </body>
