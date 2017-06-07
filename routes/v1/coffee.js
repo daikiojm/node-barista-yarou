@@ -132,8 +132,9 @@ router.get('/:id/:type', sessionHelper.loginCheck, (req, res, next) => {
 
 // ユーザーID、タイプを指定して指定期間の集計結果を取得
 // drip?userid=d_ojima&type=0&since=2017-04-22&until=2017-04-24
-router.get('/count', sessionHelper.loginCheck, (req, res, next) => {
-  let userId = req.query.userid || null;
+router.get('/:id/:type/span', sessionHelper.loginCheck, (req, res, next) => {
+  let userId = req.params.id;
+  let dripType = req.params.type || 0;// default: 0(barista);
   if (userId == null) {
     res.json({
       "result": "err",
@@ -144,7 +145,6 @@ router.get('/count', sessionHelper.loginCheck, (req, res, next) => {
   let sesIsAdmin = req.session.isadmin;
   let sesId = req.session.user_id;
   if (sesIsAdmin == true || userId == sesId) {
-    let dripType = req.query.type || 0;// default: 0(barista)
     let sinceDay = req.query.since || moment.unix(0).format("YYYY-MM-DD");
     let untilDay = req.query.until || moment().format("YYYY-MM-DD");
     // Set the range to select date

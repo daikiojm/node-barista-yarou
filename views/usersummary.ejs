@@ -25,9 +25,9 @@
     <p style="visibility:hidden">dummy</p>
 
     <div class="well">
-        <p class="name">名前: </p>
-        <p class="count">合計: </p>
-        <p class="sum">合計金額: </p>
+        <p class="name">名前: <span class="name_res"></span></p>
+        <p class="count">合計: <span class="count_res"></span>杯</p>
+        <p class="sum">合計金額: <span class="sum_res"></span>円</p>
     </div>
     <%# ejsからjavascriptへの値渡し部分 (無理矢理感否めない)%>
     <h2 style="display:none;" id="id"><%=id %></h2>
@@ -99,16 +99,64 @@
       )
     }
 
+    // 期間指定
+    let getDripListWithSpan = (since, until) => {
+      console.log(since);
+      console.log(until);
+      let elm = $("#driplist");
+      elm.empty();
+      $.ajax({
+        url: "/api/v1/drip/list/" + id + "/" + type + "/span/?since=" + since + "&until=" + until
+      })
+      .then(
+        (data) => {
+          console.log(data);
+          let list;
+          for (let i = 0; i < data.length; i++) {
+            let line = data[i];
+            list+= '<tr>';
+            list+= '<td>' + line['_id'] + '</td>';
+            list+= '<td>' + line['type'] + '</td>';
+            list+= '<td>' + line['user_id'] + '</td>';
+            list+= '<td>' + isoToformatDate(line['date']) + '</td>';
+            list+='</tr>';
+          }
+          elm.append(list);
+        },
+        (err) => {
+          elm.text(JSON.stringify({message: err}));
+        }
+      )
+    }
+
     let getSum = () => {
-      let countelm = $(".count");
-      let sumelm = $(".sum");
+      let countelm = $(".count_res");
+      let sumelm = $(".sum_res");
       $.ajax({
         url: "/api/v1/drip/" + id + "/" + type
       })
       .then(
         (data) => {
-            countelm.append(data.count + ' 杯');
-            sumelm.append(data.price + ' 円');
+            countelm.text(data.count);
+            sumelm.text(data.price);
+        },
+        (err) => {
+          elm.text(JSON.stringify({message: err}));
+        }
+      )
+    }
+
+    // 期間指定
+    let getSumWithSpan = (since, until) => {
+      let countelm = $(".count_res");
+      let sumelm = $(".sum_res");
+      $.ajax({
+        url: "/api/v1/drip/" + id + "/" + type + "/span/?since=" + since + "&until=" + until
+      })
+      .then(
+        (data) => {
+            countelm.text(data.count);
+            sumelm.text(data.price);
         },
         (err) => {
           elm.text(JSON.stringify({message: err}));
@@ -117,13 +165,13 @@
     }
 
     let getNameById = () => {
-      let nameelm = $(".name");
+      let nameelm = $(".name_res");
       $.ajax({
         url: "/api/v1/user/" + id
       })
       .then(
         (data) => {
-            nameelm.append(data.username + ' さん');
+            nameelm.text(data.username);
         },
         (err) => {
           nameelm.text(JSON.stringify({message: err}));
@@ -138,7 +186,20 @@
     });
 
     $('#lastmonth').on('click', function() {
-      console.log('click lastmonth');
+      // 先月の初日と最終日を求める
+      let date = new Date();
+      let year = date.getYear() + 1900;
+      let month = date.getMonth();
+      let firstDayOfLastMonth = new Date(year, month-1, 1);
+      let lastDayOfLastMonth = new Date(year, month, 0);
+
+      // APIのパラメータに合わせてフォーマット
+      let formatedSince = formatDate(firstDayOfLastMonth, 'YYYY-MM-DD');
+      let formatedUntil = formatDate(lastDayOfLastMonth, 'YYYY-MM-DD');
+
+      // APIからのデータ取得とDOM更新
+      getSumWithSpan(formatedSince, formatedUntil);
+      getDripListWithSpan(formatedSince, formatedUntil);
     });
 
     $('#thismonth').on('click', function() {
@@ -146,7 +207,9 @@
     });
 
     $('#all').on('click', function() {
-      console.log('click all');
+      // 更新のみ
+      getDripList();
+      getSum();
     });
     </script>
   </body>
