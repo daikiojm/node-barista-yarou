@@ -62,17 +62,23 @@ Start up nodejs process by nodemon
 |/api/coffee|PUT|UserIdに一致するユーザーのコーヒー数を更新する|
 
 ## Schema
-* user
-* drips
+* UserModel
 
-| _id | username | password | IDm |
-|:-----------|:------------|:------------|:------------|
-| 自動採番   | 名前        | ログインパスワード |Felica識別用|
+| _id | username | password | idm | isadmin |
+|:-----------|:------------|:------------|:------------|:------------|
+| 自動採番   | 名前(String) | ログインパスワード(String) | Felica識別用(String) | 管理者フラグ(Boolean) |
 
-| _id | drip_date | user_id |
+* DripModel
+
+| user_id | type | date |
 |:-----------|:------------|:------------|
-| 自動採番   | 時刻情報        | user._idを記録 |
+| UserModelのユーザーID(String)   | 種別(Number) | 時刻情報(Date) |
 
+* TypeModel
+
+| id | name | price |
+|:-----------|:------------|:------------|
+| 種別ID(Number)   | 名称(String)  | 値段(Number) |
 
 ## その他
 
